@@ -14,6 +14,7 @@ pytest = "*"
 pytest-cov = "*"
 
 [packages]
+docker = "*"
 docopt = "*"
 
 [requires]

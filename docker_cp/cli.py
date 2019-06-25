@@ -13,12 +13,27 @@ Options:
     --buffer-length=<bytes>  Buffer size in bytes.
 """
 
+import enum
 import os
 import sys
 
 import docker
 import docopt
 import schema
+
+
+class CopyDirection(enum.Flag):
+    """The direction of the copy relative to the container.
+
+    Attributes:
+        FROM: A flag indicating copy from the container to the host.
+        TO: A flag indicating copy from the host to the container.
+        ACROSS: A flag indicating copy between containers.
+    """
+
+    FROM = enum.auto()
+    TO = enum.auto()
+    ACROSS = FROM | TO
 
 
 class CopyCommand(object):

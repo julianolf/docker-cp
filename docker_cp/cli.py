@@ -13,6 +13,7 @@ Options:
     --buffer-length=<bytes>  Buffer size in bytes.
 """
 
+import os
 import sys
 
 import docker
@@ -81,6 +82,29 @@ class CopyCommand(object):
         )
 
         return validator.validate(data)
+
+    def split_arg(self, arg):
+        """Split an argument into container name and file path.
+
+        Parameters:
+            arg: A string argument representing a file input or target.
+
+        Returns:
+            A tuple of strings with a container name and a file path.
+
+            e.g.
+
+            'test:/proc/version' becomes ('test', '/proc/version')
+            './file' becomes ('', './file')
+        """
+        if os.path.isdir(arg):
+            return "", arg
+
+        parts = arg.split(":", 1)
+        if len(parts) == 1 or parts[0].startswith("."):
+            return "", arg
+
+        return parts[0], parts[1]
 
     def copy(self):
         """Perform a copy operation."""

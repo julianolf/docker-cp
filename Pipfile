@@ -13,6 +13,7 @@ pytest = "*"
 pytest-cov = "*"
 
 [packages]
+docopt = "*"
 
 [requires]
 python_version = "3.7"

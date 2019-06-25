@@ -43,7 +43,11 @@ class CopyCommand(object):
         version: A string with the command version.
         args: A dictionary containing the command arguments.
         client: A Docker client instance.
+        direction: A copy direction (from/to/across a container).
         buffer_length: An integer for the file transfer buffer size.
+        container: A Docker container to copy a file from/to.
+        source: A string with the source file.
+        destination: A string with the destination file path.
     """
 
     version = "0.1.0a1"
@@ -59,6 +63,7 @@ class CopyCommand(object):
         """
         self.args = self.validate(args)
         self.client = docker.from_env()
+        self.direction = CopyDirection.FROM & CopyDirection.TO
         self.buffer_length = docker.constants.DEFAULT_DATA_CHUNK_SIZE
 
     def validate(self, data):
@@ -122,8 +127,34 @@ class CopyCommand(object):
         return parts[0], parts[1]
 
     def copy(self):
-        """Perform a copy operation."""
-        pass
+        """Perform a copy operation.
+
+        Raises:
+            APIError: If the Docker server returned an error.
+            NotFound: If the given container is not found.
+            ValueError: If the copy operation is invalid.
+        """
+        src_container, self.source = self.split_arg(self.args["FILE"])
+        dst_container, self.destination = self.split_arg(self.args["TARGET"])
+
+        if src_container:
+            self.direction |= CopyDirection.FROM
+            self.container = self.client.containers.get(src_container)
+        if dst_container:
+            self.direction |= CopyDirection.TO
+            self.container = self.client.containers.get(dst_container)
+
+        if self.args.get("--buffer-length", None):
+            self.buffer_length = self.args["--buffer-length"]
+
+        if self.direction == CopyDirection.FROM:
+            return  # TODO copy from a container
+        elif self.direction == CopyDirection.TO:
+            return  # TODO copy to a container
+        elif self.direction == CopyDirection.ACROSS:
+            raise ValueError("Copying between containers is not supported")
+        else:
+            raise ValueError("At least one container must be specified")
 
     @classmethod
     def run(cls, args):
@@ -135,6 +166,8 @@ class CopyCommand(object):
         try:
             cmd = cls(args)
             cmd.copy()
+        except ConnectionError:
+            sys.exit("Could not connect to Docker")
         except Exception as err:
             sys.exit(err)
 

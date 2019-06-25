@@ -53,3 +53,13 @@ def test_validate_raises_exception(arg, exp, args):
 def test_split_arg_properly(arg, exp, args):
     cmd = cli.CopyCommand(args)
     assert cmd.split_arg(arg) == exp
+
+
+def test_CopyDirection_enum_flag():
+    _from = cli.CopyDirection.FROM
+    _to = cli.CopyDirection.TO
+    _across = cli.CopyDirection.ACROSS
+    assert _from != _to
+    assert _from != _across
+    assert _to != _across
+    assert _from | _to == _across

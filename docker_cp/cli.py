@@ -18,7 +18,7 @@ import docopt
 
 def main():
     """Read input arguments."""
-    args = docopt.docopt(__doc__, version="0.1.0a1")
+    docopt.docopt(__doc__, version="0.1.0a1")
 
 
 if __name__ == "__main__":

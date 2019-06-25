@@ -126,6 +126,13 @@ class CopyCommand(object):
 
         return parts[0], parts[1]
 
+    def copy_from(self):
+        """Copy file from a container to the host."""
+        pass
+
+    def copy_to(self):
+        """Copy file from the host to a container."""
+
     def copy(self):
         """Perform a copy operation.
 
@@ -148,9 +155,9 @@ class CopyCommand(object):
             self.buffer_length = self.args["--buffer-length"]
 
         if self.direction == CopyDirection.FROM:
-            return  # TODO copy from a container
+            self.copy_from()
         elif self.direction == CopyDirection.TO:
-            return  # TODO copy to a container
+            self.copy_to()
         elif self.direction == CopyDirection.ACROSS:
             raise ValueError("Copying between containers is not supported")
         else:

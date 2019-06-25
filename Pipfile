@@ -16,6 +16,7 @@ pytest-cov = "*"
 [packages]
 docker = "*"
 docopt = "*"
+schema = "*"
 
 [requires]
 python_version = "3.7"

@@ -40,3 +40,16 @@ def test_validate_raises_exception(arg, exp, args):
     with pytest.raises(schema.SchemaError) as error:
         cmd.validate(args)
     assert str(error.value) == exp
+
+
+@pytest.mark.parametrize(
+    "arg,exp",
+    [
+        ("", ("", "")),
+        ("./", ("", "./")),
+        ("test:/proc/version", ("test", "/proc/version")),
+    ],
+)
+def test_split_arg_properly(arg, exp, args):
+    cmd = cli.CopyCommand(args)
+    assert cmd.split_arg(arg) == exp

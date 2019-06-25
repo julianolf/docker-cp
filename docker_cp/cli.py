@@ -13,8 +13,11 @@ Options:
     --buffer-length=<bytes>  Buffer size in bytes.
 """
 
+import sys
+
 import docker
 import docopt
+import schema
 
 
 class CopyCommand(object):
@@ -34,10 +37,50 @@ class CopyCommand(object):
 
         Parameters:
             args: A dictionary with command arguments and options.
+
+        Raises:
+            SchemaError: If any argument value is invalid.
         """
-        self.args = args
+        self.args = self.validate(args)
         self.client = docker.from_env()
         self.buffer_length = docker.constants.DEFAULT_DATA_CHUNK_SIZE
+
+    def validate(self, data):
+        """Validate command arguments.
+
+        Parameters:
+            data: A dictionary with command arguments and options.
+
+        Returns:
+            A dictionary containing the validated command arguments.
+
+        Raises:
+            SchemaError: If any argument value is invalid.
+        """
+        validator = schema.Schema(
+            {
+                "FILE": schema.And(str, len, error="Invalid input file"),
+                "TARGET": schema.And(
+                    str, len, error="Invalid destination directory"
+                ),
+                schema.Optional("--buffer-length"): schema.Or(
+                    None,
+                    schema.And(
+                        schema.Use(int),
+                        lambda n: n > 0,
+                        error=(
+                            "Buffer length must be "
+                            "an integer greater than 0"
+                        ),
+                    ),
+                ),
+                schema.Optional("--help"): schema.Use(bool),
+                schema.Optional("-h"): schema.Use(bool),
+                schema.Optional("--version"): schema.Use(bool),
+            }
+        )
+
+        return validator.validate(data)
 
     def copy(self):
         """Perform a copy operation."""
@@ -50,8 +93,11 @@ class CopyCommand(object):
         Parameters:
             args: A dictionary with command arguments and options.
         """
-        cmd = cls(args)
-        cmd.copy()
+        try:
+            cmd = cls(args)
+            cmd.copy()
+        except Exception as err:
+            sys.exit(err)
 
 
 def main():

@@ -11,9 +11,10 @@ from docker_cp import cli
 def test_main(args):
     argv = ["docker_cp.cli", args["FILE"], args["TARGET"]]
     with mock.patch.object(sys, "argv", argv):
-        with mock.patch("docker_cp.cli.docker"):
+        with mock.patch("docker_cp.cli.CopyCommand") as m_cp:
             try:
                 cli.main()
+                assert m_cp.run.called
             except SystemExit:
                 assert not "Should not be raised"
 
@@ -21,9 +22,8 @@ def test_main(args):
 def test_main_missing_required_argument(args):
     argv = ["docker_cp.cli", args["FILE"]]
     with mock.patch.object(sys, "argv", argv):
-        with mock.patch("docker_cp.cli.docker"):
-            with pytest.raises(SystemExit):
-                cli.main()
+        with pytest.raises(SystemExit):
+            cli.main()
 
 
 @pytest.mark.parametrize(

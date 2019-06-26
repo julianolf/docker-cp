@@ -14,8 +14,10 @@ Options:
 """
 
 import enum
+import io
 import os
 import sys
+import tarfile
 
 import docker
 import docopt
@@ -127,8 +129,33 @@ class CopyCommand(object):
         return parts[0], parts[1]
 
     def copy_from(self):
-        """Copy file from a container to the host."""
-        pass
+        """Copy file from a container to the host.
+
+        Raises:
+            APIError: If Docker server returns an error.
+            ValueError: If destination path is invalid.
+        """
+        directory = os.path.abspath(self.destination)
+        if not os.path.isdir(directory):
+            directory = os.path.dirname(directory)
+        if not os.path.exists(directory):
+            raise ValueError("Invalid output path")
+
+        data, stat = self.container.get_archive(
+            self.source, chunk_size=self.buffer_length
+        )
+
+        stream = io.BytesIO()
+        for chunk in data:
+            stream.write(chunk)
+        stream.seek(0)
+
+        with tarfile.open(fileobj=stream) as tar:
+            with tar.extractfile(stat["name"]) as f:
+                content = f.read()
+                output = os.path.join(directory, stat["name"])
+                with open(output, "wb") as out:
+                    out.write(content)
 
     def copy_to(self):
         """Copy file from the host to a container."""

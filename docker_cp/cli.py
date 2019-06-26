@@ -158,7 +158,29 @@ class CopyCommand(object):
                     out.write(content)
 
     def copy_to(self):
-        """Copy file from the host to a container."""
+        """Copy file from the host to a container.
+
+        Raises:
+            APIError: If Docker server returns an error.
+            ValueError: If source file doesn't exist or can't be read.
+        """
+        filepath = os.path.abspath(self.source)
+        if not os.path.exists(filepath):
+            raise ValueError("Invalid source file")
+
+        filename = os.path.basename(filepath)
+        stream = io.BytesIO()
+        with open(filepath, "rb") as f:
+            with tarfile.open(fileobj=stream, mode="w") as tar:
+                stat = os.fstat(f.fileno())
+                info = tarfile.TarInfo(name=filename)
+                info.size = stat.st_size
+                info.mode = stat.st_mode
+                info.mtime = stat.st_mtime
+                tar.addfile(info, fileobj=f)
+        stream.seek(0)
+
+        self.container.put_archive(self.destination, stream)
 
     def copy(self):
         """Perform a copy operation.

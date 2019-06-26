@@ -1,5 +1,9 @@
+import filecmp
+import os
+import socket
 import sys
 import tempfile
+import time
 from unittest import mock
 
 import docker
@@ -7,6 +11,30 @@ import pytest
 import schema
 
 from docker_cp import cli
+
+
+def docker_responsive():
+    client = docker.from_env()
+    try:
+        return client.ping()
+    except Exception:
+        return False
+
+
+def internet_access():
+    try:
+        host = socket.gethostbyname("google.com")
+        conn = socket.create_connection((host, 80), 2)
+        conn.close()
+        return True
+    except Exception:
+        return False
+
+
+requires = pytest.mark.skipif(
+    not docker_responsive() or not internet_access(),
+    reason="requires docker to be running and internet access",
+)
 
 
 def test_main(args):
@@ -159,3 +187,33 @@ def test_copy_to_container(args):
                 assert m_container.put_archive.called
             except SystemExit:
                 assert not "Should not be raised"
+
+
+@requires
+def test_copy_integrity():
+    client = docker.from_env()
+    container_name = f"testcp{time.time()}"
+    container = client.containers.run(
+        "fedora:25",
+        command="/usr/bin/sleep 3600",
+        name=container_name,
+        detach=True,
+    )
+    source_file = os.path.abspath(__file__)
+    source_filename = os.path.basename(source_file)
+    local_tmp = tempfile.gettempdir()
+    local_copy = f"{local_tmp}/{source_filename}"
+    container_tmp = f"{container_name}:/tmp"
+    argv1 = ["docker_cp.cli", source_file, container_tmp]
+    with mock.patch.object(sys, "argv", argv1):
+        cli.main()
+    argv2 = ["docker_cp.cli", f"{container_tmp}/{source_filename}", local_tmp]
+    with mock.patch.object(sys, "argv", argv2):
+        cli.main()
+    container.stop()
+    container.remove()
+    assert filecmp.cmp(source_file, local_copy, shallow=False)
+    try:
+        os.remove(local_copy)
+    except Exception:
+        pass

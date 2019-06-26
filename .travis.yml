@@ -9,3 +9,5 @@ install:
 script:
   - black --check -l79 docker_cp/ tests/
   - pytest -vv -x --cov-report term-missing --cov=.
+after_success:
+  - codecov

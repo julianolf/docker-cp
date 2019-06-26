@@ -1,4 +1,5 @@
 import sys
+import tempfile
 from unittest import mock
 
 import docker
@@ -131,3 +132,30 @@ def test_copy_from_container(args, response):
             cmd.copy()
             assert m_open.called
             assert m_container.get_archive.called
+
+
+def test_copy_to_container_from_invalid_path(args):
+    args["FILE"] = "/foo_/bar_"
+    args["TARGET"] = "test:/tmp"
+    expected = "Invalid source file"
+    with mock.patch("docker_cp.cli.docker"):
+        with pytest.raises(SystemExit) as error:
+            cli.CopyCommand.run(args)
+        assert str(error.value.code) == expected
+
+
+def test_copy_to_container(args):
+    with mock.patch("docker_cp.cli.docker") as m_docker:
+        m_container = mock.Mock()
+        m_cli = mock.Mock()
+        m_cli.containers.get.return_value = m_container
+        m_docker.from_env.return_value = m_cli
+        with tempfile.NamedTemporaryFile() as tmpf:
+            tmpf.write(b"It's a secret to everybody.\n")
+            args["FILE"] = tmpf.name
+            args["TARGET"] = "test:/tmp"
+            try:
+                cli.CopyCommand.run(args)
+                assert m_container.put_archive.called
+            except SystemExit:
+                assert not "Should not be raised"

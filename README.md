@@ -1,4 +1,6 @@
 # docker-cp
+[![Build Status](https://travis-ci.com/julianolf/docker-cp.svg?branch=master)](https://travis-ci.com/julianolf/docker-cp) [![codecov](https://codecov.io/gh/julianolf/docker-cp/branch/master/graph/badge.svg)](https://codecov.io/gh/julianolf/docker-cp) [![Updates](https://pyup.io/repos/github/julianolf/docker-cp/shield.svg)](https://pyup.io/repos/github/julianolf/docker-cp/) [![Python 3](https://pyup.io/repos/github/julianolf/docker-cp/python-3-shield.svg)](https://pyup.io/repos/github/julianolf/docker-cp/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) [![GitHub](https://img.shields.io/github/license/julianolf/docker-cp.svg)](https://opensource.org/licenses/MIT)
+
 > A simple program for the command line that allows copying files between a Docker container and its host.
 
 ### Requirements

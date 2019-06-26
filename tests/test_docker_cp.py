@@ -106,3 +106,28 @@ def test_copy_needs_container(args):
         with pytest.raises(SystemExit) as error:
             cli.CopyCommand.run(args)
         assert str(error.value.code) == expected
+
+
+def test_copy_from_container_to_invalid_path(args):
+    args["TARGET"] = "/foo_/bar_"
+    expected = "Invalid output path"
+    with mock.patch("docker_cp.cli.docker"):
+        with pytest.raises(SystemExit) as error:
+            cli.CopyCommand.run(args)
+        assert str(error.value.code) == expected
+
+
+def test_copy_from_container(args, response):
+    with mock.patch("docker_cp.cli.docker") as m_docker:
+        m_container = mock.Mock()
+        m_container.get_archive.return_value = response
+        m_cli = mock.Mock()
+        m_cli.containers.get.return_value = m_container
+        m_docker.from_env.return_value = m_cli
+        with mock.patch(
+            "builtins.open", new_callable=mock.mock_open()
+        ) as m_open:
+            cmd = cli.CopyCommand(args)
+            cmd.copy()
+            assert m_open.called
+            assert m_container.get_archive.called

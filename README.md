@@ -50,24 +50,6 @@ Now, run the tests just to confirm that everything is in place:
 $ pipenv run tests
 ```
 
-## Tests
-The software was tested with the following environment configurations:
+## Note
 
-- Mac
-  - macOS Mojave 10.14.5
-  - Docker 18.0.2
-  - Python 3.7.3
-  - Pip 19.1.1
-  - Setuptools 41.0.1
-- Linux
-  - CentOS 7.6.1810
-  - Docker 18.09.6
-  - Python 3.6.3
-  - Pip 19.1.1
-  - Setuptools 41.0.1
-- Travis CI
-  - Ubuntu Xenial 16.04.6 LTS
-  - Docker ?
-  - Python 3.7.3
-  - Pip 19.0.3
-  - Setuptools 40.8.0
+This project was developed as part of my application for a software engineer position and it's not meant to be used for any other purpose than a study case.

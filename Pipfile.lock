@@ -67,11 +67,10 @@
         },
         "schema": {
             "hashes": [
-                "sha256:10b550886f5ff402e1fdef85bd7be761b0e09a35a43633311807a57a5bc4db50",
-                "sha256:c9dc8f4624e287c7d1435f8fd758f6a0aabbb7eff442db9192cd46f0e2b6d959"
+                "sha256:3a03c2e2b22e6a331ae73750ab1da46916da6ca861b16e6f073ac1d1eba43b71",
+                "sha256:b536f2375b49fdf56f36279addae98bd86a8afbd58b3c32ce363c464bed5fc1c"
             ],
-            "index": "pypi",
-            "version": "==0.7.1"
+            "version": "==0.7.2"
         },
         "six": {
             "hashes": [

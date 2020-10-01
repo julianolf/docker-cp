@@ -67,10 +67,10 @@
         },
         "schema": {
             "hashes": [
-                "sha256:3a03c2e2b22e6a331ae73750ab1da46916da6ca861b16e6f073ac1d1eba43b71",
-                "sha256:b536f2375b49fdf56f36279addae98bd86a8afbd58b3c32ce363c464bed5fc1c"
+                "sha256:4cf529318cfd1e844ecbe02f41f7e5aa027463e7403666a52746f31f04f47a5e",
+                "sha256:c331438b60f634cab5664ab720d3083cc444f924d55269530c36b33e3354276f"
             ],
-            "version": "==0.7.2"
+            "version": "==0.7.3"
         },
         "six": {
             "hashes": [

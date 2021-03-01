@@ -39,11 +39,10 @@
         },
         "docker": {
             "hashes": [
-                "sha256:317e95a48c32de8c1aac92a48066a5b73e218ed096e03758bcdd799a7130a1a1",
-                "sha256:cffc771d4ea1389fc66bc95cb72d304aa41d1a1563482a9a000fba3a84ed5071"
+                "sha256:d3393c878f575d3a9ca3b94471a3c89a6d960b35feb92f033c0de36cc9d934db",
+                "sha256:f3607d5695be025fa405a12aca2e5df702a57db63790c73b927eb6a94aac60af"
             ],
-            "index": "pypi",
-            "version": "==4.4.0"
+            "version": "==4.4.4"
         },
         "docopt": {
             "hashes": [

@@ -88,10 +88,10 @@
         },
         "websocket-client": {
             "hashes": [
-                "sha256:0fc45c961324d79c781bab301359d5a1b00b13ad1b10415a4780229ef71a5549",
-                "sha256:d735b91d6d1692a6a181f2a8c9e0238e5f6373356f561bb9dc4c7af36f452010"
+                "sha256:b68e4959d704768fa20e35c9d508c8dc2bbc041fd8d267c0d7345cffe2824568",
+                "sha256:e5c333bfa9fa739538b652b6f8c8fc2559f1d364243c8a689d7c0e1d41c2e611"
             ],
-            "version": "==0.57.0"
+            "version": "==1.1.0"
         }
     },
     "develop": {

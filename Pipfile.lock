@@ -601,10 +601,10 @@
         },
         "virtualenv": {
             "hashes": [
-                "sha256:54b05fc737ea9c9ee9f8340f579e5da5b09fb64fd010ab5757eb90268616907c",
-                "sha256:b7a8ec323ee02fb2312f098b6b4c9de99559b462775bc8fe3627a73706603c1b"
+                "sha256:97066a978431ec096d163e72771df5357c5c898ffdd587048f45e0aecc228094",
+                "sha256:fdfdaaf0979ac03ae7f76d5224a05b58165f3c804f8aa633f3dd6f22fbd435d5"
             ],
-            "version": "==20.2.2"
+            "version": "==20.7.0"
         },
         "wcwidth": {
             "hashes": [

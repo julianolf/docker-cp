@@ -264,10 +264,10 @@
         },
         "identify": {
             "hashes": [
-                "sha256:943cd299ac7f5715fcb3f684e2fc1594c1e0f22a90d15398e5888143bd4144b5",
-                "sha256:cc86e6a9a390879dcc2976cef169dd9cc48843ed70b7380f321d1b118163c60e"
+                "sha256:2986942d3974c8f2e5019a190523b0b0e2a07cb8e89bf236727fb4b26f27f8fd",
+                "sha256:fd906823ed1db23c7a48f9b176a1d71cb8abede1e21ebe614bac7bdd688d9213"
             ],
-            "version": "==1.5.10"
+            "version": "==2.4.11"
         },
         "idna": {
             "hashes": [

@@ -32,12 +32,8 @@
             "version": "==21.6.0"
         },
         "docker": {
-            "hashes": [
-                "sha256:7a79bb439e3df59d0a72621775d600bc8bc8b422d285824cb37103eab91d1ce0",
-                "sha256:d916a26b62970e7c2f554110ed6af04c7ccff8e9f81ad17d0d40c75637e227fb"
-            ],
-            "index": "pypi",
-            "version": "==5.0.3"
+            "hashes": [],
+            "version": "==6.0.0"
         },
         "docopt": {
             "hashes": [

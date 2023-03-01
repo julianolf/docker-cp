@@ -145,11 +145,8 @@
             "version": "==6.0.0"
         },
         "identify": {
-            "hashes": [
-                "sha256:0dca2ea3e4381c435ef9c33ba100a78a9b40c0bab11189c7cf121f75815efeaa",
-                "sha256:3d11b16f3fe19f52039fb7e39c9c884b21cb1b586988114fbe42671f03de3e82"
-            ],
-            "version": "==2.5.1"
+            "hashes": [],
+            "version": "==2.5.18"
         },
         "idna": {
             "hashes": [],
